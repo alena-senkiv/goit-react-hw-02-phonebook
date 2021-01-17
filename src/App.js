@@ -4,7 +4,13 @@ import s from './App.module.css';
 
 class App extends Component {
   state = {
-    contacts: [],
+    contacts: [
+      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+    ],
+    filter: '',
     name: '',
     number: '',
   };
@@ -45,7 +51,13 @@ class App extends Component {
   };
 
   render() {
-    const { contacts, name, number } = this.state;
+    const { contacts, name, number, filter } = this.state;
+
+    const normalizedFilter = filter.toLowerCase();
+    const visibleContacts = contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter),
+    );
+
     return (
       <div className={s.container}>
         <h1>Phonebook</h1>
@@ -75,8 +87,20 @@ class App extends Component {
           <button type="submit">Add contact</button>
         </form>
         <h2>Contacts</h2>
+        <label>
+          Find contacts by name
+          <br />
+          <input
+            type="text"
+            name="filter"
+            value={filter}
+            onChange={this.handleChange}
+          />
+        </label>
+        <br />
+        <br />
         <ul>
-          {contacts.map(({ name, number }) => (
+          {visibleContacts.map(({ name, number }) => (
             <li key={uuidv4()}>
               {name} : {number}
             </li>
