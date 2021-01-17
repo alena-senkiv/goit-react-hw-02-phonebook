@@ -6,21 +6,33 @@ class App extends Component {
   state = {
     contacts: [],
     name: '',
+    number: '',
   };
 
   nameInputId = uuidv4();
+  numberInputId = uuidv4();
 
-  handleChange = e => this.setState({ name: e.currentTarget.value });
+  handleChange = e => {
+    const { name, value } = e.currentTarget;
+    this.setState({ [name]: value });
+  };
+
+  // handleChangeName = e => {
+  //   this.setState({ name: e.currentTarget.value });
+  // };
+  // handleChangeNumber = e => this.setState({ number: e.currentTarget.value });
 
   handleSubmit = e => {
     e.preventDefault();
-    this.addContact(this.state.name);
+    this.addContact(this.state.name, this.state.number);
+    this.reset();
   };
 
-  addContact = name => {
+  addContact = (name, number) => {
     const contact = {
       id: uuidv4(),
       name,
+      number,
     };
 
     this.setState(prevState => ({
@@ -28,27 +40,46 @@ class App extends Component {
     }));
   };
 
+  reset = () => {
+    this.setState({ name: '', number: '' });
+  };
+
   render() {
-    const { name, contacts } = this.state;
+    const { contacts, name, number } = this.state;
     return (
       <div className={s.container}>
         <h1>Phonebook</h1>
         <form onSubmit={this.handleSubmit}>
           <label htmlFor={this.nameInputId}>
+            Name
             <input
               type="text"
               name="name"
               id={this.nameInputId}
               value={name}
               onChange={this.handleChange}
-            ></input>
+            />
           </label>
-          <button type="submit">Добавить контакт</button>
+          <br />
+          <label htmlFor={this.numberInputId}>
+            Number
+            <input
+              type="text"
+              name="number"
+              id={this.numberInputId}
+              value={number}
+              onChange={this.handleChange}
+            />
+          </label>
+          <br />
+          <button type="submit">Add contact</button>
         </form>
         <h2>Contacts</h2>
         <ul>
-          {contacts.map(({ name }) => (
-            <li key={uuidv4()}>{name}</li>
+          {contacts.map(({ name, number }) => (
+            <li key={uuidv4()}>
+              {name} : {number}
+            </li>
           ))}
         </ul>
       </div>
