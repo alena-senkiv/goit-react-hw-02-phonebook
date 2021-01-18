@@ -1,0 +1,12 @@
+.filter {
+  display: flex;
+  justify-content: start;
+  margin-bottom: 50px;
+}
+.filterLabel {
+  font-weight: bold;
+}
+
+.filterInput {
+  min-width: 540px;
+}

@@ -4,7 +4,7 @@ import s from './ContactList.module.css';
 
 export default function ContactList({ contacts, handleDeleteContact }) {
   return (
-    <ul className={s.ContactList}>
+    <ul className={s.contactList}>
       {contacts.map(({ id, name, number }) => (
         <ContactListItem
           key={uuidv4()}
