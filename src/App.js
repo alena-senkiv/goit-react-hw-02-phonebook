@@ -40,10 +40,23 @@ class App extends Component {
       name,
       number,
     };
+    // if (this.state.contacts.find(name => this.state.name)) {
+    //   alert(`${this.state.name} is already in contacts`);
+    //   return;
+    // }
 
     this.setState(prevState => ({
       contacts: [contact, ...prevState.contacts],
     }));
+  };
+
+  deleteContact = contactName => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(
+        contact => contact.name !== contactName,
+      ),
+    }));
+    console.log('удалить');
   };
 
   reset = () => {
@@ -103,6 +116,9 @@ class App extends Component {
           {visibleContacts.map(({ name, number }) => (
             <li key={uuidv4()}>
               {name} : {number}
+              <button type="button" onClick={() => this.deleteContact(name)}>
+                Delete
+              </button>
             </li>
           ))}
         </ul>
