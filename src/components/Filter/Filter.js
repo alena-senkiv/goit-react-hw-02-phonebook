@@ -8,7 +8,6 @@ export default function Filter({ value, onInputChange }) {
       <label className={s.filterLabel} htmlFor={id}>
         Find contacts by name
       </label>
-
       <input
         className={s.filterInput}
         id={id}
