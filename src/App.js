@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { v4 as uuidv4 } from 'uuid';
 import ContactForm from './components/ContactForm';
 import ContactList from './components/ContactList';
@@ -17,8 +19,12 @@ class App extends Component {
   };
 
   handleFilterChange = e => {
-    const { name, value } = e.currentTarget;
-    this.setState({ [name]: value });
+    if (this.state.contacts.length <= 2) {
+      return;
+    } else {
+      const { name, value } = e.currentTarget;
+      return this.setState({ [name]: value });
+    }
   };
 
   addContact = ({ name, number }) => {
@@ -28,8 +34,13 @@ class App extends Component {
       number,
     };
 
+    if (name.trim() === '' || number.trim() === '') {
+      toast.error('Please, enter Name and Number', { position: 'top-center' });
+      return;
+    }
+
     if (this.state.contacts.find(({ name }) => name === contact.name)) {
-      alert(`${name} is already in contacts`);
+      toast.warn(`${name} is already in contacts`);
       return;
     }
 
@@ -43,6 +54,20 @@ class App extends Component {
       contacts: prevState.contacts.filter(contact => contact.id !== contactId),
     }));
   };
+
+  componentDidMount() {
+    const parsedContacts = JSON.parse(localStorage.getItem('contacts'));
+
+    if (parsedContacts) {
+      this.setState({ contacts: parsedContacts });
+    }
+  }
+
+  componentDidUpdate(prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
 
   render() {
     const { contacts, filter } = this.state;
@@ -61,6 +86,7 @@ class App extends Component {
           contacts={visibleContacts}
           handleDeleteContact={this.deleteContact}
         />
+        <ToastContainer autoClose={3000} />
       </div>
     );
   }

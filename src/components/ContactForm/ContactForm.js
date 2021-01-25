@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { ImPencil } from 'react-icons/im';
 import s from './ContactForm.module.css';
 
 class ContactForm extends Component {
@@ -18,8 +19,6 @@ class ContactForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
-
     this.props.onSubmit(this.state);
     this.reset();
   };
@@ -42,7 +41,7 @@ class ContactForm extends Component {
           id={this.nameInputId}
           value={name}
           onChange={this.handleChange}
-          required
+          // required
         />
 
         <label className={s.contactLabel} htmlFor={this.numberInputId}>
@@ -55,10 +54,11 @@ class ContactForm extends Component {
           id={this.numberInputId}
           value={number}
           onChange={this.handleChange}
-          required
+          // required
         />
 
         <button className={s.buttonAdd} type="submit">
+          <ImPencil style={{ marginRight: 5 }} />
           Add contact
         </button>
       </form>
