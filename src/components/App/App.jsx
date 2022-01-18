@@ -27,12 +27,16 @@ class App extends Component {
       number,
     };
 
-    if (name.trim() === '' || number.trim() === '') {
+    if (!name.trim() || !number.trim()) {
       toast.error('Please, enter Name and Number', { position: 'top-center' });
       return;
     }
 
-    if (contacts.find(({ name }) => name === contact.name)) {
+    if (
+      contacts.find(
+        ({ name }) => name.toLowerCase() === contact.name.toLowerCase(),
+      )
+    ) {
       toast.warn(`${name} is already in contacts`);
       return;
     }

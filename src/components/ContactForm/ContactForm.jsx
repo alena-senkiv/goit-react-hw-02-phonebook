@@ -54,7 +54,7 @@ class ContactForm extends Component {
         </label>
         <input
           className={styles.contactInput}
-          type="text"
+          type="tel"
           name="number"
           id={this.numberInputId}
           value={number}
